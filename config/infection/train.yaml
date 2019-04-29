@@ -1,0 +1,31 @@
+name: infection
+
+model:
+  fn: infection.networks.InfectionGN
+  kwargs:
+    aggregation: max
+    bias: yes
+
+optimizer:
+  fn: torch.optim.Adam
+  kwargs:
+    lr: .001
+
+session:
+  epochs: 20
+  batch_size: 1_000
+  losses:
+    nodes: 1
+    count: 1
+    l1: 0
+  data:
+    folder: ~/experiments/{name}/data
+  log:
+    folder: ~/experiments/{name}/runs/{tags}_{rand}
+    when:
+      - every batch
+  checkpoint:
+    folder: ~/experiments/{name}/runs/{tags}_{rand}
+    when:
+      #- every epoch
+      - last epoch
